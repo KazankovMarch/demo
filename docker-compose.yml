@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    image: openjdk:17
+    command: sh -c "./gradlew clean build && java -jar ./build/libs/demo-0.0.1-SNAPSHOT.jar"
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: pas1
+
+
+  postgresql:
+    image: postgres:latest
+    volumes:
+      - demo-postrgesql-data:/var/lib/postgresql
+    environment:
+      POSTGRES_PASSWORD: pas1
+      POSTGRES_DB: demo
+
+volumes:
+  demo-postrgesql-data:
